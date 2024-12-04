@@ -1,15 +1,24 @@
 import 'package:flutter/material.dart';
 
-class Feach extends StatelessWidget {
-  const Feach({super.key});
+class Fetch extends StatelessWidget {
+  const Fetch({super.key});
 
   @override
   Widget build(BuildContext context) {
-    return const Column(
+    return Column(
       children: [
-        Text('фича 1'),
-        Text('фича 2'),
-        Text('фича 3'),
+        TextButton(
+          onPressed: () {},
+          child: const Text('фича 1'),
+        ),
+        TextButton(
+          onPressed: () {},
+          child: const Text('фича 2'),
+        ),
+        TextButton(
+          onPressed: () {},
+          child: const Text('фича 3'),
+        ),
       ],
     );
   }

@@ -19,9 +19,11 @@ class MainScreen extends StatelessWidget {
         backgroundColor: Colors.blue,
         body: const Row(
           children: [
-            Expanded(child: Feach()),
+            SizedBox(
+              width: 200,
+              child: Fetch(),
+            ),
             Expanded(
-              flex: 20,
               child: MainTable(),
             ),
           ],

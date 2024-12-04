@@ -7,14 +7,29 @@ class MainDrawer extends StatelessWidget {
   Widget build(BuildContext context) {
     return Drawer(
       child: ListView(
-        children: const [
-          DrawerHeader(
+        children: [
+          const DrawerHeader(
             decoration: BoxDecoration(color: Colors.blueAccent),
             child: Text('Опции с фичами'),
           ),
-          Center(child: Text('add')),
-          Center(child: Text('update')),
-          Center(child: Text('delete')),
+          Center(
+            child: TextButton(
+              onPressed: () {},
+              child: const Text('add'),
+            ),
+          ),
+          Center(
+            child: TextButton(
+              onPressed: () {},
+              child: const Text('update'),
+            ),
+          ),
+          Center(
+            child: TextButton(
+              onPressed: () {},
+              child: const Text('delete'),
+            ),
+          ),
         ],
       ),
     );
