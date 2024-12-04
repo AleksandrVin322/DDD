@@ -21,12 +21,6 @@ class MainDrawer extends StatelessWidget {
           Center(
             child: TextButton(
               onPressed: () {},
-              child: const Text('update'),
-            ),
-          ),
-          Center(
-            child: TextButton(
-              onPressed: () {},
               child: const Text('delete'),
             ),
           ),

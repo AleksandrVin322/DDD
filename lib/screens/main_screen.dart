@@ -13,7 +13,9 @@ class MainScreen extends StatelessWidget {
       home: Scaffold(
         appBar: AppBar(
           backgroundColor: Colors.blue,
-          title: const Center(child: Text('Текущая фича')),
+          title: const Center(
+            child: Text('Текущая фича'),
+          ),
         ),
         drawer: const MainDrawer(),
         backgroundColor: Colors.blue,

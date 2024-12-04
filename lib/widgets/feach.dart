@@ -8,14 +8,25 @@ class Fetch extends StatelessWidget {
     return Column(
       children: [
         TextButton(
+          style: const ButtonStyle(
+            backgroundColor: WidgetStatePropertyAll(Colors.white),
+          ),
           onPressed: () {},
           child: const Text('фича 1'),
         ),
+        const SizedBox(height: 20),
         TextButton(
+          style: const ButtonStyle(
+            backgroundColor: WidgetStatePropertyAll(Colors.white),
+          ),
           onPressed: () {},
           child: const Text('фича 2'),
         ),
+        const SizedBox(height: 20),
         TextButton(
+          style: const ButtonStyle(
+            backgroundColor: WidgetStatePropertyAll(Colors.white),
+          ),
           onPressed: () {},
           child: const Text('фича 3'),
         ),
