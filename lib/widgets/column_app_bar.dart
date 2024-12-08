@@ -1,12 +1,15 @@
-import 'package:ddd/bloc/app_bloc.dart';
+import 'package:ddd/bloc/flex_anal/flex_anal_bloc.dart';
+import 'package:ddd/bloc/flex_dev/flex_dev_bloc.dart';
+import 'package:ddd/bloc/flex_test/flex_test_bloc.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 
 class ColumnAppBar extends StatelessWidget {
-  final _appBloc = AppBloc();
   final String text;
   final Color color;
   final int flex;
-  ColumnAppBar({
+
+  const ColumnAppBar({
     super.key,
     required this.text,
     required this.color,
@@ -22,7 +25,17 @@ class ColumnAppBar extends StatelessWidget {
         child: Center(
           child: TextButton(
             onPressed: () {
-              _appBloc.add(AppEvent());
+              if (text == 'Аналитика') {
+                BlocProvider.of<FlexAnalBloc>(context)
+                    .add(FlexAnalSwitchEvent());
+              }
+              if (text == 'Разработка') {
+                BlocProvider.of<FlexDevBloc>(context).add(FlexDevSwitchEvent());
+              }
+              if (text == 'Тестирование') {
+                BlocProvider.of<FlexTestBloc>(context)
+                    .add(FlexTestSwitchEvent());
+              }
             },
             child: Text(text),
           ),
