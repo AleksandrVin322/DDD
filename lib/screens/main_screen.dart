@@ -23,6 +23,9 @@ class _MainScreenState extends State<MainScreen> {
   int flexTest = 1;
   int i = 0;
   String nameFeatch = 'Featch #1';
+  bool readTest = true;
+  bool readDev = true;
+  bool readAnal = true;
 
   void changeFeatch(int index) {
     i = index;
@@ -73,6 +76,9 @@ class _MainScreenState extends State<MainScreen> {
   final controllerDev = TextEditingController();
   final controllerTest = TextEditingController();
   final controllerName = TextEditingController();
+  final controllerTestUpdate = TextEditingController();
+  final controllerDevUpdate = TextEditingController();
+  final controllerAnalUpdate = TextEditingController();
 
   void saveFeatch() {
     var textAnal = controllerAnal.text;
@@ -143,6 +149,45 @@ class _MainScreenState extends State<MainScreen> {
     setState(() {});
   }
 
+  void updateInfoTest() {
+    controllerTestUpdate.text = '${listFeatch[i].test}';
+    readTest = false;
+    setState(() {});
+  }
+
+  void updateInfoDev() {
+    controllerDevUpdate.text = '${listFeatch[i].dev}';
+    readDev = false;
+    setState(() {});
+  }
+
+  void updateInfoAnal() {
+    controllerAnalUpdate.text = '${listFeatch[i].anal}';
+    readAnal = false;
+    setState(() {});
+  }
+
+  void saveInfoTest() {
+    String text = controllerTestUpdate.text;
+    listFeatch[i].test = text;
+    readTest = true;
+    setState(() {});
+  }
+
+  void saveInfoDev() {
+    String text = controllerDevUpdate.text;
+    listFeatch[i].dev = text;
+    readDev = true;
+    setState(() {});
+  }
+
+  void saveInfoAnal() {
+    String text = controllerAnalUpdate.text;
+    listFeatch[i].anal = text;
+    readAnal = true;
+    setState(() {});
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -157,7 +202,11 @@ class _MainScreenState extends State<MainScreen> {
               children: [
                 Text(
                   nameFeatch,
-                  style: TextStyle(fontSize: 20),
+                  style: TextStyle(fontSize: 28),
+                ),
+                Container(
+                  height: 1,
+                  color: Colors.black,
                 ),
                 SizedBox(height: 20),
                 Expanded(
@@ -173,22 +222,19 @@ class _MainScreenState extends State<MainScreen> {
                   ),
                 ),
                 Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
                   children: [
+                    IconButton(
+                      onPressed: () {
+                        alert(context);
+                      },
+                      icon: Icon(Icons.add_box),
+                    ),
                     IconButton(
                       onPressed: () {
                         deleteCurrentFeatch(i);
                       },
                       icon: Icon(Icons.delete),
-                    ),
-                    IconButton(
-                      onPressed: () {
-                        alert(context);
-                      },
-                      icon: Icon(Icons.plus_one),
-                    ),
-                    IconButton(
-                      onPressed: () {},
-                      icon: Icon(Icons.recycling),
                     ),
                   ],
                 ),
@@ -210,19 +256,51 @@ class _MainScreenState extends State<MainScreen> {
                   flex: flexAnal,
                   child: Column(
                     children: [
-                      flexAnal == 1 && flexDev == 20 && flexTest == 20
-                          ? IconButton(
-                              onPressed: changeFlexAnal,
-                              icon: Icon(Icons.analytics))
-                          : TextButton(
-                              child: Text(
-                                'Anal',
-                                style: TextStyle(
-                                    overflow: TextOverflow.ellipsis,
-                                    fontSize: 20),
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          flexAnal == 1 && flexDev == 20 && flexTest == 20
+                              ? IconButton(
+                                  onPressed: changeFlexAnal,
+                                  icon: Icon(Icons.analytics))
+                              : TextButton(
+                                  child: Text(
+                                    'Anal',
+                                    style: TextStyle(
+                                        overflow: TextOverflow.ellipsis,
+                                        fontSize: 20),
+                                  ),
+                                  onPressed: changeFlexAnal),
+                          IconButton(
+                              onPressed: updateInfoAnal,
+                              icon: Icon(Icons.replay))
+                        ],
+                      ),
+                      Container(
+                        height: 1,
+                        color: Colors.black,
+                      ),
+                      readAnal
+                          ? Expanded(
+                              child: ListView(
+                                children: [
+                                  Center(
+                                    child: Text('${listFeatch[i].anal}'),
+                                  )
+                                ],
                               ),
-                              onPressed: changeFlexAnal),
-                      Text('${listFeatch[i].anal}'),
+                            )
+                          : Column(
+                              children: [
+                                TextField(
+                                  controller: controllerAnalUpdate,
+                                  maxLines: 35,
+                                ),
+                                IconButton(
+                                    onPressed: saveInfoAnal,
+                                    icon: Icon(Icons.save))
+                              ],
+                            )
                     ],
                   ),
                 ),
@@ -235,19 +313,51 @@ class _MainScreenState extends State<MainScreen> {
                   flex: flexDev,
                   child: Column(
                     children: [
-                      flexAnal == 20 && flexDev == 1 && flexTest == 20
-                          ? IconButton(
-                              onPressed: changeFlexDev,
-                              icon: Icon(Icons.developer_board))
-                          : TextButton(
-                              child: Text(
-                                'Dev',
-                                style: TextStyle(
-                                    overflow: TextOverflow.ellipsis,
-                                    fontSize: 20),
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          flexAnal == 20 && flexDev == 1 && flexTest == 20
+                              ? IconButton(
+                                  onPressed: changeFlexDev,
+                                  icon: Icon(Icons.developer_board))
+                              : TextButton(
+                                  child: Text(
+                                    'Dev',
+                                    style: TextStyle(
+                                        overflow: TextOverflow.ellipsis,
+                                        fontSize: 20),
+                                  ),
+                                  onPressed: changeFlexDev),
+                          IconButton(
+                              onPressed: updateInfoDev,
+                              icon: Icon(Icons.replay))
+                        ],
+                      ),
+                      Container(
+                        height: 1,
+                        color: Colors.black,
+                      ),
+                      readDev
+                          ? Expanded(
+                              child: ListView(
+                                children: [
+                                  Center(
+                                    child: Text('${listFeatch[i].dev}'),
+                                  )
+                                ],
                               ),
-                              onPressed: changeFlexDev),
-                      Text('${listFeatch[i].anal}'),
+                            )
+                          : Column(
+                              children: [
+                                TextField(
+                                  controller: controllerDevUpdate,
+                                  maxLines: 35,
+                                ),
+                                IconButton(
+                                    onPressed: saveInfoDev,
+                                    icon: Icon(Icons.save))
+                              ],
+                            )
                     ],
                   ),
                 ),
@@ -260,19 +370,52 @@ class _MainScreenState extends State<MainScreen> {
                   flex: flexTest,
                   child: Column(
                     children: [
-                      flexAnal == 20 && flexDev == 20 && flexTest == 1
-                          ? IconButton(
-                              onPressed: changeFlexDev,
-                              icon: Icon(Icons.article))
-                          : TextButton(
-                              child: Text(
-                                'Test',
-                                style: TextStyle(
-                                    overflow: TextOverflow.ellipsis,
-                                    fontSize: 20),
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          flexAnal == 20 && flexDev == 20 && flexTest == 1
+                              ? IconButton(
+                                  onPressed: changeFlexDev,
+                                  icon: Icon(Icons.article))
+                              : TextButton(
+                                  child: Text(
+                                    'Test',
+                                    style: TextStyle(
+                                        overflow: TextOverflow.ellipsis,
+                                        fontSize: 20),
+                                  ),
+                                  onPressed: changeFlexTest),
+                          IconButton(
+                            onPressed: updateInfoTest,
+                            icon: Icon(Icons.replay),
+                          )
+                        ],
+                      ),
+                      Container(
+                        height: 1,
+                        color: Colors.black,
+                      ),
+                      readTest
+                          ? Expanded(
+                              child: ListView(
+                                children: [
+                                  Center(
+                                    child: Text('${listFeatch[i].test}'),
+                                  )
+                                ],
                               ),
-                              onPressed: changeFlexTest),
-                      Text('${listFeatch[i].anal}'),
+                            )
+                          : Column(
+                              children: [
+                                TextField(
+                                  controller: controllerTestUpdate,
+                                  maxLines: 35,
+                                ),
+                                IconButton(
+                                    onPressed: saveInfoTest,
+                                    icon: Icon(Icons.save))
+                              ],
+                            )
                     ],
                   ),
                 ),
