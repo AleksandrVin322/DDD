@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_markdown/flutter_markdown.dart';
 
 class MainScreen extends StatefulWidget {
   const MainScreen({super.key});
@@ -7,8 +8,17 @@ class MainScreen extends StatefulWidget {
   State<MainScreen> createState() => _MainScreenState();
 }
 
-var featch1 = Featch(
-    anal: 'Info Anal_1', dev: 'Info Dev_1', test: 'Info Test_1', name: '1');
+var featch1 = Featch(anal: '''
+# DDD
+
+## Инструкция запуска приложения
+
+### Инструкция запуска через терминал
+
+1. Скачиваем зависимости проекта: `flutter pub get`
+2. Просмотреть доступные девайсы : `flutter devices`
+3. Запустить мобильное приложение (Пример web платформа):`flutter run -d chrome`
+    ''', dev: 'Info Dev_1', test: 'Info Test_1', name: '1');
 var featch2 = Featch(
     anal: 'Info Anal_2', dev: 'Info Dev_2', test: 'Info Test_2', name: '2');
 var featch3 = Featch(
@@ -321,7 +331,8 @@ class _MainScreenState extends State<MainScreen> {
                                   child: ListView(
                                     children: [
                                       Center(
-                                        child: Text('${listFeatch[i].anal}'),
+                                        child: MarkdownBody(
+                                            data: '${listFeatch[i].anal}'),
                                       )
                                     ],
                                   ),
