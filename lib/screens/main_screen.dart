@@ -151,13 +151,15 @@ class _MainScreenState extends State<MainScreen> {
   }
 
   void updateInfoTest() {
-    controllerTestUpdate.text = '${listFeatch[indexFeatch].test}';
+    controllerTestUpdate.text =
+        '${listFeatch[indexFeatch].test[indexPartFeatchTest]}';
     readTest = false;
     setState(() {});
   }
 
   void updateInfoDev() {
-    controllerDevUpdate.text = '${listFeatch[indexFeatch].dev}';
+    controllerDevUpdate.text =
+        '${listFeatch[indexFeatch].dev[indexPartFeatchDev]}';
     readDev = false;
     setState(() {});
   }
@@ -211,6 +213,52 @@ class _MainScreenState extends State<MainScreen> {
 
   changePartAnal(index) {
     indexPartFeatchAnal = index;
+    setState(() {});
+  }
+
+  addPartFeatchAnal() {
+    listFeatch[indexFeatch].anal.add('');
+    indexPartFeatchAnal = listFeatch[indexFeatch].anal.length - 1;
+    setState(() {});
+  }
+
+  deletePartFeatchAnal() {
+    listFeatch[indexFeatch].anal.removeAt(indexPartFeatchAnal);
+    indexPartFeatchAnal = indexPartFeatchAnal - 1;
+    setState(() {});
+  }
+
+  changePartDev(index) {
+    indexPartFeatchDev = index;
+    setState(() {});
+  }
+
+  addPartFeatchDev() {
+    listFeatch[indexFeatch].dev.add('');
+    indexPartFeatchDev = listFeatch[indexFeatch].dev.length - 1;
+    setState(() {});
+  }
+
+  deletePartFeatchDev() {
+    listFeatch[indexFeatch].dev.removeAt(indexPartFeatchDev);
+    indexPartFeatchDev = indexPartFeatchDev - 1;
+    setState(() {});
+  }
+
+  changePartTest(index) {
+    indexPartFeatchTest = index;
+    setState(() {});
+  }
+
+  addPartFeatchTest() {
+    listFeatch[indexFeatch].test.add('');
+    indexPartFeatchTest = listFeatch[indexFeatch].test.length - 1;
+    setState(() {});
+  }
+
+  deletePartFeatchTest() {
+    listFeatch[indexFeatch].test.removeAt(indexPartFeatchTest);
+    indexPartFeatchTest = indexPartFeatchTest - 1;
     setState(() {});
   }
 
@@ -328,22 +376,14 @@ class _MainScreenState extends State<MainScreen> {
                           ? IconButton(
                               onPressed: changeFlexAnal,
                               icon: Icon(Icons.analytics))
-                          : Row(
-                              mainAxisAlignment: MainAxisAlignment.center,
-                              children: [
-                                TextButton(
-                                    child: Text(
-                                      'Anal',
-                                      style: TextStyle(
-                                          overflow: TextOverflow.ellipsis,
-                                          fontSize: 20),
-                                    ),
-                                    onPressed: changeFlexAnal),
-                                IconButton(
-                                    onPressed: updateInfoAnal,
-                                    icon: Icon(Icons.create))
-                              ],
-                            ),
+                          : TextButton(
+                              child: Text(
+                                'Anal',
+                                style: TextStyle(
+                                    overflow: TextOverflow.ellipsis,
+                                    fontSize: 20),
+                              ),
+                              onPressed: changeFlexAnal),
                       Container(
                         height: 1,
                         color: Colors.black,
@@ -371,7 +411,7 @@ class _MainScreenState extends State<MainScreen> {
                                   children: [
                                     TextField(
                                       controller: controllerAnalUpdate,
-                                      maxLines: 35,
+                                      maxLines: 33,
                                     ),
                                     IconButton(
                                         onPressed: saveInfoAnal,
@@ -395,11 +435,16 @@ class _MainScreenState extends State<MainScreen> {
                             ),
                           ),
                           IconButton(
-                              onPressed: () {}, icon: Icon(Icons.plus_one)),
+                              onPressed: addPartFeatchAnal,
+                              icon: Icon(Icons.plus_one)),
                           IconButton(
-                              onPressed: () {}, icon: Icon(Icons.delete)),
+                              onPressed: deletePartFeatchAnal,
+                              icon: Icon(Icons.delete)),
                           IconButton(
-                              onPressed: () {}, icon: Icon(Icons.create)),
+                              onPressed: () {
+                                updateInfoAnal();
+                              },
+                              icon: Icon(Icons.create)),
                         ],
                       ))
                     ],
@@ -422,22 +467,14 @@ class _MainScreenState extends State<MainScreen> {
                           ? IconButton(
                               onPressed: changeFlexDev,
                               icon: Icon(Icons.developer_board))
-                          : Row(
-                              mainAxisAlignment: MainAxisAlignment.center,
-                              children: [
-                                TextButton(
-                                    child: Text(
-                                      'Dev',
-                                      style: TextStyle(
-                                          overflow: TextOverflow.ellipsis,
-                                          fontSize: 20),
-                                    ),
-                                    onPressed: changeFlexDev),
-                                IconButton(
-                                    onPressed: updateInfoDev,
-                                    icon: Icon(Icons.create)),
-                              ],
-                            ),
+                          : TextButton(
+                              child: Text(
+                                'Dev',
+                                style: TextStyle(
+                                    overflow: TextOverflow.ellipsis,
+                                    fontSize: 20),
+                              ),
+                              onPressed: changeFlexDev),
                       Container(
                         height: 1,
                         color: Colors.black,
@@ -450,11 +487,12 @@ class _MainScreenState extends State<MainScreen> {
                           ? Text('')
                           : readDev
                               ? Expanded(
+                                  flex: 15,
                                   child: ListView(
                                     children: [
                                       Center(
                                         child: Text(
-                                            '${listFeatch[indexFeatch].dev}'),
+                                            '${listFeatch[indexFeatch].dev[indexPartFeatchDev]}'),
                                       )
                                     ],
                                   ),
@@ -469,7 +507,36 @@ class _MainScreenState extends State<MainScreen> {
                                         onPressed: saveInfoDev,
                                         icon: Icon(Icons.save))
                                   ],
-                                )
+                                ),
+                      Expanded(
+                          child: Row(
+                        children: [
+                          Expanded(
+                            child: ListView.builder(
+                              scrollDirection: Axis.horizontal,
+                              itemCount: listFeatch[indexFeatch].dev.length,
+                              itemBuilder: (BuildContext context, int index) {
+                                return TextButton(
+                                    onPressed: () {
+                                      changePartDev(index);
+                                    },
+                                    child: Text('${index + 1}'));
+                              },
+                            ),
+                          ),
+                          IconButton(
+                              onPressed: addPartFeatchDev,
+                              icon: Icon(Icons.plus_one)),
+                          IconButton(
+                              onPressed: deletePartFeatchDev,
+                              icon: Icon(Icons.delete)),
+                          IconButton(
+                              onPressed: () {
+                                updateInfoDev();
+                              },
+                              icon: Icon(Icons.create)),
+                        ],
+                      ))
                     ],
                   ),
                 ),
@@ -490,23 +557,14 @@ class _MainScreenState extends State<MainScreen> {
                           ? IconButton(
                               onPressed: changeFlexTest,
                               icon: Icon(Icons.article))
-                          : Row(
-                              mainAxisAlignment: MainAxisAlignment.center,
-                              children: [
-                                TextButton(
-                                    child: Text(
-                                      'Test',
-                                      style: TextStyle(
-                                          overflow: TextOverflow.ellipsis,
-                                          fontSize: 20),
-                                    ),
-                                    onPressed: changeFlexTest),
-                                IconButton(
-                                  onPressed: updateInfoTest,
-                                  icon: Icon(Icons.create),
-                                ),
-                              ],
-                            ),
+                          : TextButton(
+                              child: Text(
+                                'Test',
+                                style: TextStyle(
+                                    overflow: TextOverflow.ellipsis,
+                                    fontSize: 20),
+                              ),
+                              onPressed: changeFlexTest),
                       Container(
                         height: 1,
                         color: Colors.black,
@@ -519,11 +577,12 @@ class _MainScreenState extends State<MainScreen> {
                           ? const Text('')
                           : readTest
                               ? Expanded(
+                                  flex: 15,
                                   child: ListView(
                                     children: [
                                       Center(
                                         child: Text(
-                                            '${listFeatch[indexFeatch].test}'),
+                                            '${listFeatch[indexFeatch].test[indexPartFeatchTest]}'),
                                       )
                                     ],
                                   ),
@@ -536,9 +595,38 @@ class _MainScreenState extends State<MainScreen> {
                                     ),
                                     IconButton(
                                         onPressed: saveInfoTest,
-                                        icon: Icon(Icons.save))
+                                        icon: Icon(Icons.save)),
                                   ],
-                                )
+                                ),
+                      Expanded(
+                          child: Row(
+                        children: [
+                          Expanded(
+                            child: ListView.builder(
+                              scrollDirection: Axis.horizontal,
+                              itemCount: listFeatch[indexFeatch].test.length,
+                              itemBuilder: (BuildContext context, int index) {
+                                return TextButton(
+                                    onPressed: () {
+                                      changePartTest(index);
+                                    },
+                                    child: Text('${index + 1}'));
+                              },
+                            ),
+                          ),
+                          IconButton(
+                              onPressed: addPartFeatchTest,
+                              icon: Icon(Icons.plus_one)),
+                          IconButton(
+                              onPressed: deletePartFeatchTest,
+                              icon: Icon(Icons.delete)),
+                          IconButton(
+                              onPressed: () {
+                                updateInfoTest();
+                              },
+                              icon: Icon(Icons.create)),
+                        ],
+                      ))
                     ],
                   ),
                 ),
