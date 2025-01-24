@@ -8,7 +8,8 @@ class MainScreen extends StatefulWidget {
   State<MainScreen> createState() => _MainScreenState();
 }
 
-var featch1 = Featch(anal: '''
+var featch1 = Featch(anal: [
+  '''
 # DDD
 
 ## Инструкция запуска приложения
@@ -18,20 +19,40 @@ var featch1 = Featch(anal: '''
 1. Скачиваем зависимости проекта: `flutter pub get`
 2. Просмотреть доступные девайсы : `flutter devices`
 3. Запустить мобильное приложение (Пример web платформа):`flutter run -d chrome`
-    ''', dev: 'Info Dev_1', test: 'Info Test_1', name: '1');
+    ''',
+  'какая хуйня на второй'
+], dev: [
+  'Info Dev_1',
+  'разработка 2'
+], test: [
+  'Info Test_1',
+  'тестирование 2'
+], name: '1');
 var featch2 = Featch(
-    anal: 'Info Anal_2', dev: 'Info Dev_2', test: 'Info Test_2', name: '2');
+    anal: ['Info Anal_2'],
+    dev: ['Info Dev_2'],
+    test: ['Info Test_2'],
+    name: '2');
 var featch3 = Featch(
-    anal: 'Info Anal_3', dev: 'Info Dev_3', test: 'Info Test_3', name: '3');
+    anal: ['Info Anal_3'],
+    dev: ['Info Dev_3'],
+    test: ['Info Test_3'],
+    name: '3');
 var featch4 = Featch(
-    anal: 'Info Anal_4', dev: 'Info Dev_4', test: 'Info Test_4', name: '4');
+    anal: ['Info Anal_4'],
+    dev: ['Info Dev_4'],
+    test: ['Info Test_4'],
+    name: '4');
 List<Featch> listFeatch = [featch1, featch2, featch3, featch4];
 
 class _MainScreenState extends State<MainScreen> {
   int flexAnal = 1;
   int flexDev = 1;
   int flexTest = 1;
-  int i = 0;
+  int indexFeatch = 0;
+  int indexPartFeatchAnal = 0;
+  int indexPartFeatchDev = 0;
+  int indexPartFeatchTest = 0;
   String nameFeatch = 'Выбери фичу';
   bool readTest = true;
   bool readDev = true;
@@ -39,7 +60,8 @@ class _MainScreenState extends State<MainScreen> {
   bool readNameFeatch = true;
 
   void changeFeatch(int index) {
-    i = index;
+    indexPartFeatchAnal = indexPartFeatchDev = indexPartFeatchTest = 0;
+    indexFeatch = index;
     nameFeatch = '${listFeatch[index].name}';
     setState(() {});
   }
@@ -77,9 +99,9 @@ class _MainScreenState extends State<MainScreen> {
   void deleteCurrentFeatch(int currentFeatch) {
     listFeatch.removeAt(currentFeatch);
     if (currentFeatch == listFeatch.length) {
-      i = 0;
+      indexFeatch = 0;
     }
-    nameFeatch = 'Featch #${i + 1}';
+    nameFeatch = 'Featch #${indexFeatch + 1}';
     setState(() {});
   }
 
@@ -91,7 +113,7 @@ class _MainScreenState extends State<MainScreen> {
 
   void saveFeatch() {
     var textName = controllerName.text;
-    var featch = Featch(anal: '', dev: '', test: '', name: textName);
+    var featch = Featch(anal: [''], dev: [''], test: [''], name: textName);
     listFeatch.add(featch);
     setState(() {});
 
@@ -129,40 +151,41 @@ class _MainScreenState extends State<MainScreen> {
   }
 
   void updateInfoTest() {
-    controllerTestUpdate.text = '${listFeatch[i].test}';
+    controllerTestUpdate.text = '${listFeatch[indexFeatch].test}';
     readTest = false;
     setState(() {});
   }
 
   void updateInfoDev() {
-    controllerDevUpdate.text = '${listFeatch[i].dev}';
+    controllerDevUpdate.text = '${listFeatch[indexFeatch].dev}';
     readDev = false;
     setState(() {});
   }
 
   void updateInfoAnal() {
-    controllerAnalUpdate.text = '${listFeatch[i].anal}';
+    controllerAnalUpdate.text =
+        '${listFeatch[indexFeatch].anal[indexPartFeatchAnal]}';
     readAnal = false;
     setState(() {});
   }
 
   void saveInfoTest() {
     String text = controllerTestUpdate.text;
-    listFeatch[i].test = text;
+    listFeatch[indexFeatch].test[indexPartFeatchTest] = text;
     readTest = true;
     setState(() {});
   }
 
   void saveInfoDev() {
     String text = controllerDevUpdate.text;
-    listFeatch[i].dev = text;
+    listFeatch[indexFeatch].dev[indexPartFeatchDev] = text;
     readDev = true;
     setState(() {});
   }
 
   void saveInfoAnal() {
     String text = controllerAnalUpdate.text;
-    listFeatch[i].anal = text;
+    listFeatch[indexFeatch].anal[indexPartFeatchAnal] = text;
     readAnal = true;
     setState(() {});
   }
@@ -186,6 +209,11 @@ class _MainScreenState extends State<MainScreen> {
     setState(() {});
   }
 
+  changePartAnal(index) {
+    indexPartFeatchAnal = index;
+    setState(() {});
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -205,7 +233,7 @@ class _MainScreenState extends State<MainScreen> {
                         child: readNameFeatch
                             ? Text(
                                 maxLines: 2,
-                                listFeatch[i].name,
+                                listFeatch[indexFeatch].name,
                                 style: TextStyle(
                                   fontSize: 14,
                                   overflow: TextOverflow.ellipsis,
@@ -219,7 +247,7 @@ class _MainScreenState extends State<MainScreen> {
                                               controllerNameFeatchUpdate)),
                                   IconButton(
                                       onPressed: () {
-                                        saveNameFeatch(i);
+                                        saveNameFeatch(indexFeatch);
                                       },
                                       icon: Icon(Icons.check)),
                                   IconButton(
@@ -262,13 +290,13 @@ class _MainScreenState extends State<MainScreen> {
                     ),
                     IconButton(
                       onPressed: () {
-                        deleteCurrentFeatch(i);
+                        deleteCurrentFeatch(indexFeatch);
                       },
                       icon: Icon(Icons.delete),
                     ),
                     IconButton(
                       onPressed: () {
-                        updateCurrentFeatch(i);
+                        updateCurrentFeatch(indexFeatch);
                       },
                       icon: Icon(Icons.create),
                     ),
@@ -328,11 +356,13 @@ class _MainScreenState extends State<MainScreen> {
                           ? Text('')
                           : readAnal
                               ? Expanded(
+                                  flex: 15,
                                   child: ListView(
                                     children: [
                                       Center(
                                         child: MarkdownBody(
-                                            data: '${listFeatch[i].anal}'),
+                                            data:
+                                                '${listFeatch[indexFeatch].anal[indexPartFeatchAnal]}'),
                                       )
                                     ],
                                   ),
@@ -347,7 +377,31 @@ class _MainScreenState extends State<MainScreen> {
                                         onPressed: saveInfoAnal,
                                         icon: Icon(Icons.save))
                                   ],
-                                )
+                                ),
+                      Expanded(
+                          child: Row(
+                        children: [
+                          Expanded(
+                            child: ListView.builder(
+                              scrollDirection: Axis.horizontal,
+                              itemCount: listFeatch[indexFeatch].anal.length,
+                              itemBuilder: (BuildContext context, int index) {
+                                return TextButton(
+                                    onPressed: () {
+                                      changePartAnal(index);
+                                    },
+                                    child: Text('${index + 1}'));
+                              },
+                            ),
+                          ),
+                          IconButton(
+                              onPressed: () {}, icon: Icon(Icons.plus_one)),
+                          IconButton(
+                              onPressed: () {}, icon: Icon(Icons.delete)),
+                          IconButton(
+                              onPressed: () {}, icon: Icon(Icons.create)),
+                        ],
+                      ))
                     ],
                   ),
                 ),
@@ -399,7 +453,8 @@ class _MainScreenState extends State<MainScreen> {
                                   child: ListView(
                                     children: [
                                       Center(
-                                        child: Text('${listFeatch[i].dev}'),
+                                        child: Text(
+                                            '${listFeatch[indexFeatch].dev}'),
                                       )
                                     ],
                                   ),
@@ -467,7 +522,8 @@ class _MainScreenState extends State<MainScreen> {
                                   child: ListView(
                                     children: [
                                       Center(
-                                        child: Text('${listFeatch[i].test}'),
+                                        child: Text(
+                                            '${listFeatch[indexFeatch].test}'),
                                       )
                                     ],
                                   ),
@@ -496,9 +552,9 @@ class _MainScreenState extends State<MainScreen> {
 }
 
 class Featch {
-  late String anal;
-  late String dev;
-  late String test;
+  late List<String> anal;
+  late List<String> dev;
+  late List<String> test;
   late String name;
 
   Featch({
